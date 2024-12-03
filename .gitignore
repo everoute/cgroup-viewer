@@ -1,0 +1,15 @@
+*.mod*
+*.cmd
+*.o
+.tmp_versions/
+modules.order
+Module.symvers
+Mkfile.old
+dkms.conf
+*.ko
+*.rpm
+.ccls-cache
+el
+oe
+check
+check.tar.gz
