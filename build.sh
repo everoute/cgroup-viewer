@@ -16,3 +16,5 @@ for i in "${symbol[@]}"; do
 	set +x
 done
 
+make
+sudo insmod ./cg.ko
