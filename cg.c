@@ -18,8 +18,9 @@ static void snapshot_refaults(struct mem_cgroup *root_memcg, pg_data_t *pgdat) {
 
   memcg = iter(root_memcg, NULL, NULL);
   do {
-    pr_info("[smartx:%s:%d] %s\n", __FUNCTION__, __LINE__,
-            memcg->css.cgroup->kn->name);
+    	pr_info("[smartx:%s:%d] %s %px\n", __FUNCTION__, __LINE__,
+        memcg->css.cgroup->kn->name, memcg);
+	cond_resched();
   } while ((memcg = iter(root_memcg, memcg, NULL)));
 }
 
@@ -31,6 +32,7 @@ static void test_it(void) {
   my_for_each_online_pgdat(pgdat) {
     pr_info("[smartx:%s:%d] %d\n", __FUNCTION__, __LINE__, pgdat->node_id);
     snapshot_refaults(NULL, pgdat);
+    break;
   }
 }
 
