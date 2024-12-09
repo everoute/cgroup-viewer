@@ -23,10 +23,9 @@ static void snapshot_refaults(struct mem_cgroup *root_memcg, pg_data_t *pgdat) {
         pr_info("[smartx:%s:%d] %s %px", __FUNCTION__, __LINE__,
         memcg->css.cgroup->kn->name, memcg);
         while (idx < MEMCG_NR_STAT) {
-            pr_info(" %d=%lu", idx, memcg_page_state(memcg, idx));
+            printk(KERN_CONT " %d=%lu", idx, memcg_page_state(memcg, idx));
             idx++;
         }
-        pr_info("\n");
 	cond_resched();
   } while ((memcg = iter(root_memcg, memcg, NULL)));
 }
