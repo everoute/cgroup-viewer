@@ -1,6 +1,7 @@
 #include <linux/kernel.h>
 #include <linux/memcontrol.h>
 #include <linux/module.h>
+#include <linux/page_counter.h>
 
 typedef struct mem_cgroup *(*type_mem_cgroup_iter)(
     struct mem_cgroup *root, struct mem_cgroup *prev,
@@ -20,11 +21,16 @@ static void snapshot_refaults(struct mem_cgroup *root_memcg, pg_data_t *pgdat) {
   do {
         int idx = NR_LRU_BASE;
 
-        pr_info("[smartx:%s:%d] %s %px id=%d",
+        pr_info("[smartx:%s:%d] %s %px mem=%lu swap=%lu memsw=%lu kmem=%lu tcpmem=%lu id=%d",
             __FUNCTION__,
             __LINE__,
             memcg->css.cgroup->kn->name,
             memcg,
+            page_counter_read(&memcg->memory),
+            page_counter_read(&memcg->swap),
+            page_counter_read(&memcg->memsw),
+            page_counter_read(&memcg->kmem),
+            page_counter_read(&memcg->tcpmem),
             memcg->id.id);
         while (idx < MEMCG_NR_STAT) {
             printk(KERN_CONT " %d=%lu", idx, memcg_page_state(memcg, idx));
